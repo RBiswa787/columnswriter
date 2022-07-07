@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import NavBar from '../Components/NavBar';
 import useWindowDimensions from '../Components/windowDimensions';
 import {Button, Drawer, Typography,Container, Toolbar,Paper} from '@material-ui/core';
@@ -6,6 +6,8 @@ import {DehazeRounded,ArrowForwardIosRounded} from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core'
 import axios from "axios";
 import { Buffer } from 'buffer';
+import { UserContext } from '../UserContext';
+import {useNavigate} from 'react-router-dom';
 
 const useStyles = makeStyles((theme)=>({
     maindiv: {
@@ -17,6 +19,9 @@ const useStyles = makeStyles((theme)=>({
 
 const Auth = () => {
   const classes = useStyles();
+  const navigate = useNavigate();
+  function redirect(){navigate('/dashboard')};
+  const { setUname,setAccesstok } = useContext(UserContext);
   const [toggle,setToggle] = useState(false);
    const handleToggle = () => {
      setToggle(!toggle);
@@ -42,7 +47,11 @@ const Auth = () => {
       })
     .then(response => {
         if(response.data.authorised == true){
-            alert(response.data.access);
+            setUname(name);
+            setAccesstok(response.data.access);
+            const payload = {"username": name, "accesstoken":response.data.access};
+            axios.post('http://localhost:7878/api/creator/token',payload);
+            redirect();
         }
         else{
             alert("Not Authorised");
@@ -55,7 +64,14 @@ const Auth = () => {
   const handleRegister = () => {
     const payload = {username:name,email:email,password:password};
     axios.post('http://localhost:6868/api/user/',payload)
-    .then(response => alert(response.data.message))
+    .then(response => {alert(response.data.message);
+    if(response.data.success == true){
+        const creator = {"username":name,"accesstoken": "Logged Out","name": "Enter you name","position": "Your Designation","about": "Write something about yourself!",
+        "github": "github.com","linkedin": "linkedin.com","twitter": "twitter.com","image":"https://i.ibb.co/GRxVwGZ/ppppp.png"};
+        axios.post('http://localhost:7878/api/creator/',creator)
+        .then(response => {console.log(response.message)});
+    }
+    })
     .catch(err => {
         alert(err.message);
     })

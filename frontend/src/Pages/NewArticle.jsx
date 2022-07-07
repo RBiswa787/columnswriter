@@ -1,10 +1,8 @@
 import React,{useState} from 'react'
-import TemporaryDrawer from '../Components/Drawer';
 import NavBar from '../Components/NavBar';
 import useWindowDimensions from '../Components/windowDimensions';
 import {Button, Drawer, Typography,Container, Toolbar} from '@material-ui/core';
 import {DehazeRounded,ArrowForwardIosRounded} from '@material-ui/icons';
-import Author from '../Components/Author';
 import { makeStyles } from '@material-ui/core'
 import MDEditor from '@uiw/react-md-editor';
 

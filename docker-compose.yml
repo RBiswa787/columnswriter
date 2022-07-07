@@ -12,19 +12,35 @@ services:
       - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
     volumes:
       - db:/data/db
-  app:
+  auth-service:
     depends_on:
       - mongodb
     build: ./auth-service
     restart: unless-stopped
     env_file: ./.env
     ports:
-      - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      - $NODE_AUTH_LOCAL_PORT:$NODE_AUTH_DOCKER_PORT
     environment:
       - DB_HOST=mongodb
       - DB_USER=$MONGODB_USER
       - DB_PASSWORD=$MONGODB_PASSWORD
-      - DB_NAME=$MONGODB_DATABASE
+      - DB_NAME=$MONGODB_AUTH_DATABASE
+      - DB_PORT=$MONGODB_DOCKER_PORT
+    stdin_open: true
+    tty: true
+  ams-creator-service:
+    depends_on:
+      - mongodb
+    build: ./ams-creator-service
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NODE_AMSCREATOR_LOCAL_PORT:$NODE_AMSCREATOR_DOCKER_PORT
+    environment:
+      - DB_HOST=mongodb
+      - DB_USER=$MONGODB_USER
+      - DB_PASSWORD=$MONGODB_PASSWORD
+      - DB_NAME=$MONGODB_AMSCREATOR_DATABASE
       - DB_PORT=$MONGODB_DOCKER_PORT
     stdin_open: true
     tty: true

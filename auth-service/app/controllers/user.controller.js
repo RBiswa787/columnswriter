@@ -43,15 +43,16 @@ exports.create = (req, res) => {
         user
         .save(user)
         .then(
-          res.send({message:"Registered Successfully"}))
+          res.send({message:"Registered Successfully",success:true}))
         .catch(err => {
           res.send({
             message:
-              err.message || "Some error occurred while creating new user."
+              err.message || "Some error occurred while creating new user.",
+              success:false
           });
         });}
         else{
-            res.send({ message: "User already exists with username " + user.username});
+            res.send({ message: "User already exists with username " + user.username,success:false});
         }
 
       })
@@ -60,7 +61,7 @@ exports.create = (req, res) => {
   // Retrieve all users from the database.
 exports.findAll = (req, res) => {
     const username = req.query.username;
-    var condition = username ? { title: { $regex: new RegExp(username), $options: "i" } } : {};
+    var condition = username ? { username: { $regex: new RegExp(username), $options: "i" } } : {};
   
     User.find(condition)
       .then(data => {
