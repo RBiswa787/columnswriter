@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme)=>({
   
 
 const EditProfile = () => {
-  const { uname,accesstok,setAccesstok,setUname } = useContext(UserContext);
+  const { uname,accesstok,setAccesstok,setUname,globalname,setGlobalname} = useContext(UserContext);
   const navigate = useNavigate();
   const classes = useStyles();
   const [toggle,setToggle] = useState(false);
@@ -66,6 +66,7 @@ const EditProfile = () => {
         setGithubURL(response.data.github);
         setLinkedInURL(response.data.linkedin);
         setTwitterURL(response.data.twitter);
+        setGlobalname(response.data.name)
     }
   ).catch(
     err => {

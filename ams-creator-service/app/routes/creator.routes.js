@@ -3,10 +3,8 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new Creator
     router.post("/", creator.create);
   
-    // Retrieve all Creators
     router.get("/", creator.findAll);
   
     router.delete("/", creator.deleteAll);
@@ -16,6 +14,18 @@ module.exports = app => {
     router.post("/getprofile",creator.getProfile);
 
     router.post("/editprofile",creator.updateProfile);
+
+    router.post("/draft",creator.updateDraftArticle);
+
+    router.post("/review",creator.updateReviewArticle);
+
+    router.post("/publish",creator.updatePublishArticle);
+
+    router.post("/deletedraft",creator.deleteDraftArticle);
+
+    router.post("/deletereview",creator.deleteReviewArticle);
+
+    router.post("/deletepublish",creator.deletePublishArticle);
 
     app.use("/api/creator", router);
   };

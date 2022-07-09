@@ -66,8 +66,10 @@ const Auth = () => {
     axios.post('http://localhost:6868/api/user/',payload)
     .then(response => {alert(response.data.message);
     if(response.data.success == true){
-        const creator = {"username":name,"accesstoken": "Logged Out","name": "Enter you name","position": "Your Designation","about": "Write something about yourself!",
-        "github": "github.com","linkedin": "linkedin.com","twitter": "twitter.com","image":"https://i.ibb.co/GRxVwGZ/ppppp.png"};
+        const creator = {"username":name,"accesstoken": "Logged Out","name": "Enter your name","position": "Your Designation","about": "Write something about yourself!",
+        "github": "github.com","linkedin": "linkedin.com","twitter": "twitter.com","image":"https://i.ibb.co/GRxVwGZ/ppppp.png",
+        "draft_articles": [],"review_articles":[],"published_articles":[]
+    };
         axios.post('http://localhost:7878/api/creator/',creator)
         .then(response => {console.log(response.message)});
     }

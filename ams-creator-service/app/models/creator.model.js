@@ -30,6 +30,15 @@ module.exports = mongoose => {
         },
         image: {
           type: String
+        },
+        draft_articles: {
+          type: Array
+        },
+        review_articles: {
+          type: Array
+        },
+        published_articles: {
+          type: Array
         }
       }
     );

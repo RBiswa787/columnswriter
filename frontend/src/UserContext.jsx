@@ -8,6 +8,7 @@ const ContextProvider = ({children}) => {
 
     const [uname, setUname] = useLocalStorage('null');
     const [accesstok, setAccesstok] = useLocalStorage('Logged Out');
+    const [globalname, setGlobalname] = useLocalStorage('name');
 
     useEffect(() => {
         
@@ -15,7 +16,7 @@ const ContextProvider = ({children}) => {
     
    
     return(
-        <UserContext.Provider value={{ uname,accesstok,setUname,setAccesstok }}>
+        <UserContext.Provider value={{ uname,accesstok,globalname,setUname,setAccesstok,setGlobalname }}>
             {children}
         </UserContext.Provider>
     )

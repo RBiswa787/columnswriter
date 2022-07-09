@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 });
 
 require("./app/routes/creator.routes")(app);
+require("./app/routes/article.routes")(app);
 
 const PORT = process.env.NODE_DOCKER_PORT || 8082;
 

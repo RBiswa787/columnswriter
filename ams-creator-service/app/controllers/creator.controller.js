@@ -99,12 +99,7 @@ exports.create = (req, res) => {
     const accesstoken = req.body.accesstoken;
     Creator.findOne({username: username})
     .then(data => {
-      if(data.accesstoken == accesstoken){
-        res.send(data);
-      }
-      else{
-        res.status(404).send("Not authorised!");
-      }
+      res.send(data);
     })
   };
 
@@ -123,6 +118,90 @@ exports.create = (req, res) => {
     Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$set:update})
     .then(
       res.send({message: "profile updated"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.updateDraftArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$push:{"draft_articles":id}})
+    .then(
+      res.send({message: "Article added to creator draft"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.updateReviewArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$push:{"review_articles":id}})
+    .then(
+      res.send({message: "Article added for review!"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.updatePublishArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$push:{"published_articles":id}})
+    .then(
+      res.send({message: "Article published!"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.deleteDraftArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$pull:{"draft_articles":id}})
+    .then(
+      res.send({message: "Article removed from creator draft"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.deleteReviewArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$pull:{"review_articles":id}})
+    .then(
+      res.send({message: "Article removed from review!"})
+    )
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred!"
+      });
+    });
+  };
+
+  exports.deletePublishArticle = (req,res) => {
+    const id = req.body.articleid
+    Creator.findOneAndUpdate({"username":req.body.username,"accesstoken":req.body.accesstoken},{$pull:{"published_articles":id}})
+    .then(
+      res.send({message: "Article unpublished!"})
     )
     .catch(err => {
       res.status(500).send({
